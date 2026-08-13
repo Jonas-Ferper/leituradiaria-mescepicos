@@ -45,11 +45,11 @@ export function Lecionario({ leituras }) {
         <h2>Leituras</h2>
         <span className="lecionario-nota">Momento do dia</span>
       </header>
-      {papeis.map(([chave, rotulo], i) => {
+      {papeis.map(([chave, rotulo]) => {
         const lt = leituras[chave]
         const ehEvangelho = chave === 'evangelho'
         return (
-          <details key={chave} className={`leitura${ehEvangelho ? ' leitura-evangelho' : ''}`} open={i === 0}>
+          <details key={chave} className={`leitura${ehEvangelho ? ' leitura-evangelho' : ''}`}>
             <summary><span className="leitura-rotulo">{rotulo}</span>{lt.referencia && <span className="leitura-ref">{lt.referencia}</span>}</summary>
             {lt.texto && <div className="leitura-texto">{textoComVersiculos(lt.texto)}</div>}
           </details>

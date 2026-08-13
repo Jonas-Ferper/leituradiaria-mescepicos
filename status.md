@@ -243,7 +243,8 @@ CSS único em `src/styles.css`, tema **"missal noturno"**:
   na home em ≤900px. Os estilos compactos de calendário estão **escopados a
   `.experiencia`** — a página de mês mantém nomes/realces de solenidade.
 - Na home, em ecrãs ≤900px, escolher um dia rola suavemente até o painel de leituras
-  (`HomePage`); trocar de mês volta ao topo. A primeira leitura abre por defeito.
+  (`HomePage`); trocar de mês volta ao topo. Os cards de leituras abrem só ao serem
+  clicados (via `<details>`); começa tudo fechado.
 
 > ao alterar o design: usar as variáveis CSS em `:root`, não cores soltas; manter o
 > contraste da tinta/ouro/pergaminho; não adicionar animação sem justificação.
