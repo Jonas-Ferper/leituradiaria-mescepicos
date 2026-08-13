@@ -44,7 +44,7 @@ done
 ```
 
 Checksum do ícone (logo MESCE): `curl -s https://leituradiaria-mescepicos.netlify.app/icons/icon-512.png | md5sum`
-→ `ac2900270ca2ef215bb88377365ae1c4`
+→ `c2688f1dcb0da07bce75720f4c9261be` (estável graças ao `-strip` do `gen-icons`)
 
 Tudo 200 = publicado. Verde em `<https://app.netlify.com/sites/leituradiaria-mescepicos/deploys>` = deploy OK.
 

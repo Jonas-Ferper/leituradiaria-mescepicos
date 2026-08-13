@@ -273,7 +273,10 @@ O projeto é uma **Progressive Web App** (`vite-plugin-pwa`). O build de produç
   gera `src/fonts.css` (`@font-face` locais em `/fonts/`). **Não reintroduzir o `<link>` do
   Google Fonts** no `index.html` — offline depende destes ficheiros locais.
 - **Ícones:** `scripts/gen-icons.sh` gera todos os PNGs a partir de `logosite.png`
-  (raiz) com ImageMagick. Não editar os PNGs à mão; alterar o PNG-fonte e regenerar.
+  (raiz) com ImageMagick. Todas as saídas usam `-strip` → **bytes determinísticos**
+  (regenerar com a mesma fonte produz PNG idêntico; os checksums do §9C.4/9C.8 só
+  mudam se a fonte mudar). Não editar os PNGs à mão; alterar o `logosite.png` e
+  regenerar.
 
 > Hospedagem de produção exige **HTTPS** (instalação). Se for servido em sub-roteiro,
 > configurar `base` + `scope`/`start_url` no `vite.config.js`.
@@ -389,9 +392,9 @@ curl -s https://leituradiaria-mescepicos.netlify.app/ | grep -o 'assets/index-[A
 js=$(curl -s https://leituradiaria-mescepicos.netlify.app/ | grep -o 'assets/index-[A-Za-z0-9_-]*\.js' | head -1)
 curl -s "https://leituradiaria-mescepicos.netlify.app/$js" | grep -c 'TEXTO-UNICO-NOVO'
 
-# 4) ícone MESCE (checksum esperado):
+# 4) ícone MESCE (checksum esperado — estável graças ao -strip do gen-icons):
 curl -s https://leituradiaria-mescepicos.netlify.app/icons/icon-512.png | md5sum
-# → ac2900270ca2ef215bb88377365ae1c4
+# → c2688f1dcb0da07bce75720f4c9261be
 ```
 
 No painel → Deploys (`https://app.netlify.com/sites/leituradiaria-mescepicos/deploys`)
@@ -455,7 +458,7 @@ resposta ainda do antigo/um asset vazio — repetir.
    + logo a ~66% na zona segura), `apple-touch-icon` (180) e `favicon-64`.
 3. `npm run build` (o Vite copia para `dist/`) → commit → `git push`.
 4. No ar, confirmar o checksum do `icon-512.png` (§9C.4, esperado
-   `ac2900270ca2ef215bb88377365ae1c4`).
+   `c2688f1dcb0da07bce75720f4c9261be`).
 5. Telemóvel: **reinstalar** o app para o ícone novo (limitação §9C.7).
 
 Não editar os PNGs à mão — alterar o `logosite.png` e regenerar.
