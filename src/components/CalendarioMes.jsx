@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { DIA_SEMANA, SEMANA_ABREV, pad2 } from '../lib/clp/validar.js'
-import { corLegivel, ehHoje, indexDiaSemana, nomeDoMesCap } from '../lib/clp/formatar.js'
+import { ehHoje, indexDiaSemana, nomeDoMesCap } from '../lib/clp/formatar.js'
 
 export function CalendarioMes({ ano, mes, dias, diaAtivo, onSelect }) {
   if (!dias || dias.length === 0) return null
@@ -32,14 +32,8 @@ export function CalendarioMes({ ano, mes, dias, diaAtivo, onSelect }) {
           const rota = `/calendario/${ano}/${pad2(mes)}/${pad2(diaNumero)}`
 
           const conteudo = <>
-              <span className="dia-numero">
-                {diaNumero}
-                {hoje && <i className="hoje-ponto" aria-hidden="true" />}
-              </span>
+              <span className="dia-numero">{diaNumero}</span>
               <span className="dia-nome">{nome}</span>
-              <span className="dia-pis">
-                <i className="bolha" style={{ background: corLegivel(dia.corLiturgica) }} title={dia.corLiturgica} aria-hidden="true" />
-              </span>
             </>
           const props = {
               className: `dia${hoje ? ' hoje' : ''}${ativo ? ' ativo' : ''}${domingo ? ' domingo' : ''}${solenidade ? ' solenidade' : ''}${festa ? ' festa' : ''}`,

@@ -642,7 +642,7 @@ select {
 .dia-numero {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   font-family: var(--fonte-display);
   font-weight: 600;
   font-size: 1.12rem;
@@ -664,14 +664,6 @@ select {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.dia-pis {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  justify-content: space-between;
 }
 
 .bolha {
@@ -1619,10 +1611,6 @@ select {
     display: none;
   }
 
-  .dia-pis {
-    justify-content: center;
-  }
-
   .dia-numero {
     font-size: 0.9rem;
     justify-content: center;
@@ -1661,8 +1649,6 @@ select {
 .experiencia .dia { min-height: 70px; align-items: center; justify-content: center; padding: 8px; }
 .experiencia .dia-numero { width: 100%; justify-content: center; }
 .experiencia .dia-nome { display: none; }
-.experiencia .dia-pis { margin-top: 1px; justify-content: center; }
-.experiencia .dia-pis .bolha { width: 8px; height: 8px; }
 .experiencia .dia.domingo, .experiencia .dia.solenidade { background: var(--tinta-2); border-color: var(--linha-fraca); }
 .experiencia .dia.domingo .dia-numero { color: var(--parch); }
 .experiencia .dia.solenidade .dia-nome { font-weight: inherit; color: inherit; }
