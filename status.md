@@ -270,7 +270,7 @@ O projeto é uma **Progressive Web App** (`vite-plugin-pwa`). O build de produç
   gera `src/fonts.css` (`@font-face` locais em `/fonts/`). **Não reintroduzir o `<link>` do
   Google Fonts** no `index.html` — offline depende destes ficheiros locais.
 - **Ícones:** `scripts/gen-icons.sh` gera todos os PNGs a partir de `logosite.png`
-  (rafiz) com ImageMagick. Não editar os PNGs à mão; alterar o PNG-fonte e regenerar.
+  (raiz) com ImageMagick. Não editar os PNGs à mão; alterar o PNG-fonte e regenerar.
 
 > Hospedagem de produção exige **HTTPS** (instalação). Se for servido em sub-roteiro,
 > configurar `base` + `scope`/`start_url` no `vite.config.js`.
@@ -296,6 +296,28 @@ O projeto é uma **Progressive Web App** (`vite-plugin-pwa`). O build de produç
 - **Verificação final (Fase C):** `npm run data` → `node scripts/audit-data.mjs`
   (0 problemas) → `npm test` → `npm run build` → smoke headless de todas as rotas
   (todas com conteúdo e sem erros de consola).
+
+---
+
+## 9C. Publicação — GitHub → Netlify (auto-deploy)
+
+- **Código-fonte:** `https://github.com/Jonas-Ferper/leituradiaria-mescepicos` (branch `main`).
+  SSH `git@github.com:Jonas-Ferper/leituradiaria-mescepicos.git`; identidade git
+  "Paroquianos do Junco" `<paroquianosdojuncocom@gmail.com>`.
+- **Produção:** `https://leituradiaria-mescepicos.netlify.app/` — ligado ao repositório
+  acima (autodeploy por push). O Netlify compila com o `netlify.toml` na raiz
+  (`command = "npm run build"`, `publish = "dist"`, `NODE_VERSION = 20`) — não é
+  preciso configurar nada no painel além de ligar o repo à branch `main`.
+- **`public/_redirects`:** `/* /index.html 200` (fallback SPA) — vai no build (vite
+  copia `public/` para `dist/`); não é configurado no painel.
+- **Verificação (Fase C/Deploy):** após o 1.º deploy via Git, confirmado no ar —
+  `icon-512.png` com checksum `ac2900270ca2ef215bb88377365ae1c4` (logo MESCE),
+  manifest correto (`standalone`, pt-PT, `#0e1120`), `sw.js` com precache de fontes +
+  ícones (sem dados), 7 rotas + `/data/index.json` a responder 200.
+- **Histórico:** o site começou como upload manual (drag & drop) de um `dist` —
+  esse deploy ficou temporariamente ligado ao repo `jfernandesp/leituradiaria-mescepicos`
+  (cópia do site compilado, órfã). A ligação foi trocada para o repo oficial; o repo
+  `jfernandesp/...` pode ser arquivado/apagado.
 
 ---
 
