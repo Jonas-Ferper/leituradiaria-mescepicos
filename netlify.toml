@@ -1,0 +1,10 @@
+# Configuração de build para o Netlify (verificado na Fase C).
+# Ao ligar o repositório (Site settings → Build & deploy → Link repository),
+# o Netlify lê este ficheiro e não precisa de outras indicações.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
