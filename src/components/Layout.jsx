@@ -32,7 +32,7 @@ export function Layout() {
 
       <footer className="pie">
         <p className="pie-principal">MESCE - Ministros da Sagrada Comunhão Eucarística</p>
-        <p className="pie-fino">Paróquia São Francisco de Assis · Picos, Piauí</p>
+        <p className="pie-fino">Paróquia São Francisco de Assis · Picos, Piauí · DEPLOY-OK-20260813</p>
       </footer>
     </div>
   )
