@@ -8,6 +8,7 @@ import { CalendarioMes } from '../components/CalendarioMes.jsx'
 import { VistaDia } from '../components/VistaDia.jsx'
 import { EsqueletoMes } from '../components/Esqueletos.jsx'
 import { Carregando } from '../components/Carregando.jsx'
+import { Asterisco } from '../components/Asterisco.jsx'
 
 export function HomePage() {
   const { pronto, falhou, recarregar, indice } = useIndice()
@@ -75,9 +76,6 @@ export function HomePage() {
             <button type="button" className="controle-seta" onClick={() => trocarMes(nav.seguinte)} disabled={!nav.seguinte} aria-label="Mês seguinte">→</button>
           </header>
           <CalendarioMes ano={meta.ano} mes={meta.mes} dias={dias} diaAtivo={dia.dataCivil} onSelect={aoSelecionar} />
-          <button type="button" className="acao-hoje" onClick={() => { const h = indice.meses.find((m) => m.valido && hoje >= m.inicio && hoje <= m.fim); trocarMes(h) }}>
-            <i className="hoje-ponto" aria-hidden="true" /> Ir para hoje
-          </button>
         </section>
 
         <section className="dia-painel" aria-live="polite" ref={painelRef}>

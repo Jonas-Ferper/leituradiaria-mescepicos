@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useIndice, useMes } from '../lib/clp/hooks.js'
 import { statusMes, mesesDoAno } from '../lib/clp/data.js'
 import { diaKey, pad2 } from '../lib/clp/validar.js'
@@ -53,10 +53,6 @@ export function DiaPage() {
                 navegar(primeiro ? `/calendario/${a}/${pad2(primeiro.mes)}` : `/calendario/${a}/01`)
               }}
             />
-            <Link className="botao-hoje" to="/hoje">
-              <span className="hoje-ponto" aria-hidden="true" />
-              Hoje
-            </Link>
           </div>
           <NavMes ano={ano} mes={mes} />
         </div>
@@ -84,10 +80,6 @@ export function DiaPage() {
               navegar(primeiro ? `/calendario/${a}/${pad2(primeiro.mes)}` : `/calendario/${a}/01`)
             }}
           />
-          <Link className="botao-hoje" to="/hoje">
-            <span className="hoje-ponto" aria-hidden="true" />
-            Hoje
-          </Link>
         </div>
         <NavMes ano={ano} mes={mes} />
       </div>

@@ -649,13 +649,6 @@ select {
   color: var(--parch);
 }
 
-.hoje-ponto {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ouro);
-}
-
 .dia-nome {
   font-size: 0.78rem;
   line-height: 1.3;
@@ -1155,116 +1148,6 @@ select {
   }
 }
 
-/* ---------- busca ---------- */
-
-.busca {
-  max-width: 860px;
-}
-
-.busca-cabeca {
-  margin-bottom: 22px;
-}
-
-.busca-cabeca h1 {
-  font-family: var(--fonte-display);
-  font-weight: 600;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  letter-spacing: -0.01em;
-  margin: 0 0 6px;
-}
-
-.busca-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.busca-form input {
-  flex: 1;
-  background: var(--tinta-2);
-  color: var(--parch);
-  border: 1px solid var(--linha);
-  border-radius: 999px;
-  font: inherit;
-  padding: 12px 18px;
-}
-
-.busca-form input::placeholder {
-  color: var(--parch-fraco);
-}
-
-.busca-progresso {
-  color: var(--parch-fraco);
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.busca-vazio {
-  padding: 30px 0;
-}
-
-.busca-vazio p {
-  color: var(--parch-fraco);
-  margin: 0 0 6px;
-}
-
-.busca-aviso {
-  color: var(--parch-fraco);
-  font-size: 0.86rem;
-  margin: 0 0 16px;
-}
-
-.busca-mes {
-  margin-top: 20px;
-}
-
-.busca-lista {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.busca-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 14px;
-  background: var(--tinta-2);
-  border: 1px solid var(--linha-fraca);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--parch);
-  transition: background 0.18s, border-color 0.18s;
-}
-
-.busca-item:hover {
-  background: var(--tinta-3);
-  border-color: var(--ouro);
-}
-
-.busca-item-data {
-  color: var(--parch-fraco);
-  font-size: 0.8rem;
-  width: 74px;
-  flex: none;
-}
-
-.busca-item strong {
-  font-weight: 500;
-  font-size: 0.95rem;
-  flex: 1;
-  min-width: 0;
-}
-
-.busca-item-cat {
-  color: var(--parch-fraco);
-  font-size: 0.74rem;
-}
-
 /* ---------- footer ---------- */
 
 .pie {
@@ -1362,30 +1245,6 @@ select {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-}
-
-.botao-hoje {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--parch-fraco);
-  text-decoration: none;
-  border: 1px solid var(--linha);
-  background: var(--tinta-2);
-  padding: 9px 16px;
-  border-radius: 999px;
-  font: 500 0.9rem/1 var(--fonte-corpo);
-  transition: color 0.2s, border-color 0.2s;
-}
-
-.botao-hoje:hover {
-  color: var(--ouro-claro);
-  border-color: var(--ouro);
-}
-
-.botao-hoje .hoje-ponto {
-  width: 8px;
-  height: 8px;
 }
 
 /* ---------- selo de tempo litúrgico ---------- */
@@ -1594,11 +1453,6 @@ select {
     flex: 1;
     justify-content: center;
   }
-
-  .botao-hoje {
-    padding: 9px 13px;
-    font-size: 0.84rem;
-  }
 }
 
 @media (max-width: 460px) {
@@ -1660,10 +1514,8 @@ select {
 .dia-painel .celebra { padding: 22px; }
 .dia-painel .lecionario { margin-top: 0; }
 .dia-painel .navdia { margin-top: 18px; }
-.acao-hoje, .ver-pagina { margin-top: 22px; border: 0; background: transparent; color: var(--parch-fraco); font: 500 .86rem var(--fonte-corpo); cursor: pointer; padding: 7px 0; }
-.acao-hoje:hover, .ver-pagina:hover { color: var(--ouro-claro); }
-.acao-hoje { display: inline-flex; align-items: center; gap: 8px; }
-.acao-hoje .hoje-ponto { position: static; display: inline-block; }
+.ver-pagina { margin-top: 22px; border: 0; background: transparent; color: var(--parch-fraco); font: 500 .86rem var(--fonte-corpo); cursor: pointer; padding: 7px 0; }
+.ver-pagina:hover { color: var(--ouro-claro); }
 .ver-pagina { color: var(--ouro); }
 
 .leitura { border: 1px solid var(--linha-fraca); border-radius: 11px; background: var(--tinta-2); overflow: hidden; }
@@ -1747,18 +1599,11 @@ select {
     align-items: center;
   }
 
-  .botao-hoje {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-
   .botao-arr {
     min-height: 46px;
     padding: 12px 14px;
   }
 
-  .acao-hoje,
   .ver-pagina {
     min-height: 44px;
     display: inline-flex;

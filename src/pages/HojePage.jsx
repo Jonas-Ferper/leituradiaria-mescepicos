@@ -39,8 +39,8 @@ export function HojePage() {
           Quando o mês de {nomeDoMesCap(mes)} de {ano} for publicado, a liturgia de hoje aparecerá aqui
           automaticamente.
         </p>
-        <Link className="botao" to="/">
-          Voltar ao calendário disponível
+        <Link className="botao" to="/calendario">
+          Abrir o calendário
         </Link>
       </section>
     )
@@ -57,8 +57,8 @@ export function HojePage() {
         <p className="indisponivel-nota">
           Os restantes meses do calendário continuam disponíveis normalmente.
         </p>
-        <Link className="botao" to="/">
-          Voltar ao calendário disponível
+        <Link className="botao" to="/calendario">
+          Abrir o calendário
         </Link>
       </section>
     )

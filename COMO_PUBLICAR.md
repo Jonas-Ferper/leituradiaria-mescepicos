@@ -38,7 +38,7 @@ git push
 ## 5. Confirmar no ar (~30–40 s depois)
 
 ```
-for r in / /hoje /calendario /propostas /memorial /busca /sobre /data/index.json; do
+for r in / /calendario /data/index.json; do
   echo "$r → $(curl -s -o /dev/null -w '%{http_code}' https://leituradiaria-mescepicos.netlify.app$r)"
 done
 ```

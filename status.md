@@ -179,9 +179,8 @@ Pura (sem browser). Usada pelo script e pelo frontend.
 ## 7. Roteamento (src/App.jsx)
 
 ```
-/                                  Início (galeria de meses + hoje)
-/hoje                              Liturgia do dia atual (independente do nº de ficheiros)
-/busca                             Pesquisa pela biblioteca disponível
+/                                  Leitura do dia atual (hoje) — página inicial
+/calendario                        Calendário (grade mensal + leitura do dia)
 /calendario/:ano/:mes              Calendário do mês
 /calendario/:ano/:mes/:dia         Dia completo (celebração + leituras)
 *                                  Página 404 elegante
@@ -232,8 +231,9 @@ CSS único em `src/styles.css`, tema **"missal noturno"**:
   `Layout`) que leva a `<main id="conteudo">`; as células "hoje" do `CalendarioMes`
   usam `aria-current="date"`; todos os botões/links do calendário têm `aria-label`
   descritivo.
-- **Code-splitting (Fase C):** as páginas `/hoje`, `/busca`, mês e dia são
-  carregadas com `React.lazy` + `<Suspense>`; a home fica no bundle principal.
+- **Code-splitting (Fase C):** as páginas `mês` e `dia` são
+  carregadas com `React.lazy` + `<Suspense>`; a home (leitura do dia) e o calendário
+  (`/calendario`) ficam no bundle principal.
   **IMPORTANTE:** o `lazy` do React lê sempre `.default` — para componentes com
   *named exports* usar `lazy(() => import(...).then((m) => ({ default: m.X })))`.
   Sem isso as rotas falham com "Element type is invalid (resolves to undefined)".
@@ -297,8 +297,13 @@ O projeto é uma **Progressive Web App** (`vite-plugin-pwa`). O build de produç
   `normalizarCor`, `normalizarCategoria`, `CAMPOS_MES/CAMPOS_DIA` do export,
   `CategoriaNome`, `CategoriaCurta`, `estadoIndice`, `diaDeHoje`,
   `intervaloDisponivel`, `nomeMesDe`, `resumoMemoria`), o componente `HojeCard.jsx`,
-  `EsqueletoHoje` e o CSS do cartão "Hoje". A rota `/busca` (que existia sem rota) foi
-  ligada em `App.jsx` e ao header.
+  `EsqueletoHoje` e o CSS do cartão "Hoje".
+- **Fluxo "leitura do dia primeiro" (Fase D):** a home (`/`) passou a ser a leitura do
+  dia (`HojePage`); o calendário abriu `/calendario` com a experiência (grade mensal +
+  leitura). A navegação do header passou a ter apenas **Calendário**; removidos o link
+  `Hoje`, a rota `/hoje`, a página `BuscaPage` + rota `/busca` e os botões "Hoje" /
+  "Ir para hoje" das páginas de mês/dia (e respetivos estilos `.botao-hoje`,
+  `.acao-hoje`, `.hoje-ponto`). A marca no header volta sempre à leitura do dia.
 - **Testes:** `src/lib/clp/validar.test.js` e `formatar.test.js` (32 testes).
 - **Verificação final (Fase C):** `npm run data` → `node scripts/audit-data.mjs`
   (0 problemas) → `npm test` → `npm run build` → smoke headless de todas as rotas
@@ -382,7 +387,7 @@ editar local ──► validar/build local ──► git push (branch main)
 
 ```
 # 1) rotas principais + índice de dados (todas devem dar 200)
-for r in / /hoje /calendario /propostas /memorial /busca /sobre /data/index.json; do
+for r in / /calendario /data/index.json; do
   echo "$r → $(curl -s -o /dev/null -w '%{http_code}' https://leituradiaria-mescepicos.netlify.app$r)"
 done
 
@@ -540,9 +545,10 @@ qualquer alteração de código. **Remover mês:** apagar o JSON e regenerar.
    chromium --headless --no-sandbox --virtual-time-budget=8000 --dump-dom \
      "http://localhost:4173/<rota>"
    ```
-   Verificar: `/` (galeria), `/calendario/2026/08` (grid + setas desativadas nas
-   pontas), `/calendario/2026/08/12` (celebração + leituras), `/calendario/2027/02`
-   (página "ainda não disponível"), `/hoje`, `/calendario/abc/02` (404).
+   Verificar: `/` (leitura do dia), `/calendario` (grade + setas desativadas nas
+   pontas), `/calendario/2026/08` (grid), `/calendario/2026/08/12` (celebração +
+   leituras), `/calendario/2027/02` (página "ainda não disponível"),
+   `/calendario/abc/02` (404).
 7. **Smoke PWA:** `npm run build` → confirmar em `dist/` a existência de
    `manifest.webmanifest`, `sw.js`, `registerSW.js`, `icons/*.png`, `fonts/*.woff2`;
    e `index.html` servido com `<link rel="manifest">` + `<script src="/registerSW.js">`.

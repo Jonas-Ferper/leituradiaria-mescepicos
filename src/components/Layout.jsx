@@ -7,7 +7,12 @@ export function Layout() {
         Saltar para o conteúdo
       </a>
       <header className="masthead">
-        <NavLink to="/" className="marca" aria-label="Calendário Litúrgico MESCE — início">
+        <NavLink
+          to="/"
+          className="marca"
+          aria-label="Calendário Litúrgico MESCE — leitura do dia"
+          onClick={() => window.scrollTo({ top: 0 })}
+        >
           <span className="marca-emblema">
             <img className="marca-logotipo" src="/icons/icon-marca.png" alt="" width="38" height="38" />
           </span>
@@ -16,11 +21,8 @@ export function Layout() {
           </span>
         </NavLink>
         <nav className="nav" aria-label="Navegação principal">
-          <NavLink to="/hoje" className={({ isActive }) => (isActive ? 'ativo' : '')}>
-            Hoje
-          </NavLink>
-          <NavLink to="/busca" className={({ isActive }) => (isActive ? 'ativo' : '')}>
-            Busca
+          <NavLink to="/calendario" className={({ isActive }) => (isActive ? 'ativo' : '')}>
+            Calendário
           </NavLink>
         </nav>
       </header>
