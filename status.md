@@ -299,25 +299,184 @@ O projeto é uma **Progressive Web App** (`vite-plugin-pwa`). O build de produç
 
 ---
 
-## 9C. Publicação — GitHub → Netlify (auto-deploy)
+## 9C. Publicação — atualizar o sistema, enviar para o GitHub e fazer deploy no Netlify (runbook)
 
-- **Código-fonte:** `https://github.com/Jonas-Ferper/leituradiaria-mescepicos` (branch `main`).
-  SSH `git@github.com:Jonas-Ferper/leituradiaria-mescepicos.git`; identidade git
-  "Paroquianos do Junco" `<paroquianosdojuncocom@gmail.com>`.
-- **Produção:** `https://leituradiaria-mescepicos.netlify.app/` — ligado ao repositório
-  acima (autodeploy por push). O Netlify compila com o `netlify.toml` na raiz
-  (`command = "npm run build"`, `publish = "dist"`, `NODE_VERSION = 20`) — não é
-  preciso configurar nada no painel além de ligar o repo à branch `main`.
-- **`public/_redirects`:** `/* /index.html 200` (fallback SPA) — vai no build (vite
-  copia `public/` para `dist/`); não é configurado no painel.
-- **Verificação (Fase C/Deploy):** após o 1.º deploy via Git, confirmado no ar —
-  `icon-512.png` com checksum `ac2900270ca2ef215bb88377365ae1c4` (logo MESCE),
-  manifest correto (`standalone`, pt-PT, `#0e1120`), `sw.js` com precache de fontes +
-  ícones (sem dados), 7 rotas + `/data/index.json` a responder 200.
-- **Histórico:** o site começou como upload manual (drag & drop) de um `dist` —
-  esse deploy ficou temporariamente ligado ao repo `jfernandesp/leituradiaria-mescepicos`
-  (cópia do site compilado, órfã). A ligação foi trocada para o repo oficial; o repo
-  `jfernandesp/...` pode ser arquivado/apagado.
+Este é o fluxo completo a usar **em todas as atualizações**. Depois de montado uma
+única vez, tudo é automático: **push no GitHub = publicação no Netlify em ~30–40 s**.
+
+### 9C.1 Visão geral do pipeline
+
+```
+editar local ──► validar/build local ──► git push (branch main)
+                                             │
+                                             ▼
+              Netlify (hook do GitHub)  ──► npm run build  (lê netlify.toml)
+                                             │
+                                             ▼
+                                 publica dist/ → https://leituradiaria-mescepicos.netlify.app/
+```
+
+- O **GitHub é o único ponto de verdade** do código-fonte. O Netlify corre
+  `npm run build`, e o `package.json` tem `prebuild = npm run data` — por isso até
+  dados novos (JSONs na raiz) chegam ao ar sem mexer em código, ver §9C.6.
+- `netlify.toml` (na raiz do repo) já diz ao Netlify: `command = "npm run build"`,
+  `publish = "dist"`, `NODE_VERSION = 20`. **Não há uploads manuais** (o deploy por
+  drag & drop foi abandonado — ver Histórico, §9C.9).
+- `public/_redirects` (`/* /index.html 200`, fallback SPA) vive no repo e entra no
+  `dist/` automaticamente via Vite (cópia de `public/`) — não se configura no painel.
+
+### 9C.2 Pré-requisitos (feitos uma vez por máquina)
+
+- **Git** com identidade do projeto:
+  ```
+  git config user.name  "Paroquianos do Junco"
+  git config user.email paroquianosdojuncocom@gmail.com
+  ```
+- **Chave SSH do GitHub** a funcionar. Teste: `ssh -T git@github.com` →
+  `Hi Jonas-Ferper!`. Remote do repo:
+  ```
+  git remote -v   # deve mostrar
+  origin  git@github.com:Jonas-Ferper/leituradiaria-mescepicos.git (fetch/push)
+  ```
+  (se faltar: `git init -b main` + `git remote add origin git@github.com:Jonas-Ferper/leituradiaria-mescepicos.git`)
+- **Netlify ligado ao repo correto** (uma vez):
+  1. `https://app.netlify.com/sites/leituradiaria-mescepicos/settings/deploys`
+     → seção **Continuous deployment** → **Change/Link repository**;
+  2. autorizar o **Netlify GitHub App** na conta `Jonas-Ferper` quando o GitHub pedir;
+  3. escolher `Jonas-Ferper/leituradiaria-mescepicos`, **branch `main`**;
+  4. o `netlify.toml` preenche sozinho *Build command* (`npm run build`) e
+     *Publish directory* (`dist`) — apenas confirmar e **Save**; começa o 1.º build.
+- **Dependências instaladas:** `npm install`.
+
+### 9C.3 Fluxo normal — publicar uma alteração (passo a passo)
+
+1. **Editar.** Dados → colocar/corrigir `clp-YYYY-MM.json` na **raiz** do projeto
+   (nunca em `public/data/`, que é gerado e ignorado por git). Código → `src/…`,
+   `index.html`, `public/…`.
+2. **Validar/gerar localmente (obrigatório antes do push):**
+   ```
+   npm run data                          # regenera public/data a partir da raiz
+   npm test                              # 32 testes unitários (validar/formatar)
+   node scripts/audit-data.mjs           # 0 meses com problema (avisos §9B)
+   npm run build                         # gera dist/ real (inclui PWA)
+   ```
+3. **Ver o que vai entrar:** `git status` — deve listar apenas as mudanças
+   intencionais. `node_modules/`, `dist/`, `public/data/` estão no `.gitignore` e
+   NÃO entram.
+4. **Commit + push:**
+   ```
+   git add -A
+   git commit -m "Resumo do que mudou"
+   git push
+   ```
+5. **Esperar ~30–40 s** e confirmar no ar com o checklist §9C.4.
+
+### 9C.4 Checklist de verificação no ar (comandos prontos)
+
+```
+# 1) rotas principais + índice de dados (todas devem dar 200)
+for r in / /hoje /calendario /propostas /memorial /busca /sobre /data/index.json; do
+  echo "$r → $(curl -s -o /dev/null -w '%{http_code}' https://leituradiaria-mescepicos.netlify.app$r)"
+done
+
+# 2) bundle de produção servido — o hash muda a CADA build (deteta rollover):
+curl -s https://leituradiaria-mescepicos.netlify.app/ | grep -o 'assets/index-[A-Za-z0-9_-]*\.js'
+
+# 3) conteúdo novo visível? procurar um texto que só o novo build tem:
+js=$(curl -s https://leituradiaria-mescepicos.netlify.app/ | grep -o 'assets/index-[A-Za-z0-9_-]*\.js' | head -1)
+curl -s "https://leituradiaria-mescepicos.netlify.app/$js" | grep -c 'TEXTO-UNICO-NOVO'
+
+# 4) ícone MESCE (checksum esperado):
+curl -s https://leituradiaria-mescepicos.netlify.app/icons/icon-512.png | md5sum
+# → ac2900270ca2ef215bb88377365ae1c4
+```
+
+No painel → Deploys (`https://app.netlify.com/sites/leituradiaria-mescepicos/deploys`)
+deve estar o commit mais recente com estado **Published** (verde). "Building" =
+ainda a compilar; vermelho = deploy falhou (ver §9C.7).
+
+### 9C.5 Exemplo real — teste de auto-deploy (2026-08-13)
+
+Para provar o ciclo, adicionou-se o marcador temporário `DEPLOY-OK-20260813` no
+rodapé (`src/components/Layout.jsx`), fez-se push e observou-se:
+
+| Passo | Comando | Resultado no ar (~30 s após push) |
+|---|---|---|
+| Antes | `git push` anterior | bundle `assets/index-DnoAKJxt.js` sem marcador |
+| Push com marcador | `git push` (commit `18939a2`) | `assets/index-B7NYatM7.js` **com** `DEPLOY-OK-20260813` ✔ |
+| Push de reversão | `git push` (commit `bc98d5e`) | de volta a `assets/index-DnoAKJxt.js` (190 939 bytes) sem marcador ✔ |
+
+O **hash do bundle muda a cada `npm run build`** → é o indicador fiável de que o
+deploy novo chegou ao ar. Nota: durante a troca (~1 s) um curl pode apanhar a
+resposta ainda do antigo/um asset vazio — repetir.
+
+### 9C.6 Cenário típico — publicar um mês novo / corrigir um dia
+
+1. Recebeu `clp-2027-01.json` → colocar na **raiz** do repo.
+2. `npm run data` → `node scripts/audit-data.mjs` (0 problemas) → `npm test`.
+3. `npm run build` (gera o dist novo) → commit → `git push`.
+4. No ar: `/data/index.json` passa a listar o mês; abrir `/calendario/2027/01` e um
+   dia com leituras. Índice, galeria, navegação e busca descobrem o mês sozinhos
+   (ver §1 e §8) — **sem alterar código**.
+
+> Nota: mesmo que `public/data/` não vá para o git, o Netlify regenera-o no build
+> porque `prebuild = npm run data`; os JSONs-fonte na raiz têm de estar committados.
+
+### 9C.7 Troubleshooting
+
+- **Deploy não dispara (painel Deploys vazio/badge cinza):** a ligação Git no painel
+  pode estar no repo errado. Já aconteceu estar ligado a
+  `jfernandesp/leituradiaria-mescepicos` (cópia do site compilado, sem `src/`), o
+  que impedia os pushes do repo oficial de chegarem. Corrige-se em Site settings →
+  Build & deploy → Continuous deployment → **Change repository** →
+  `Jonas-Ferper/leituradiaria-mescepicos`. O Netlify faz o 1.º build sozinho.
+- **Trocar a ligação por API NÃO dá:** o token Netlify usado tinha acesso só de
+  leitura (qualquer PATCH/PUT dá 401); e ligar um repo GitHub exige **autorizar o
+  Netlify GitHub App no GitHub** — passo que só o dono da conta faz no navegador.
+  É operação de painel, não de código/script.
+- **Ícone antigo no telemóvel (mesmo após deploy):** limitação das PWAs — o atalho
+  no ecrã inicial só atualiza quando o app é **desinstalado e instalado novamente**.
+  O site já está atualizado; não é falha do deploy.
+- **Bundle "velho"/resposta vazia num curl logo após o push:** rollover atómico do
+  Netlify de ~1 s — repetir o curl/checklist §9C.4.
+- **Deploy falhou (vermelho):** ver o log do deploy. Causa típica: versão do Node —
+  `NODE_VERSION = 20` no `netlify.toml` fixa já (Vite 6 pede ≥18/20).
+- **Mês novo não aparece:** certifique-se de que o JSON-fonte está na raiz e
+  committado; `public/data/` local regenera-se sozinho no build (prebuild).
+
+### 9C.8 Ícones — como trocar a logo
+
+1. Substituir `logosite.png` (raiz do projeto) — é a **fonte única**.
+2. `npm run gen-icons` (chama `scripts/gen-icons.sh`, precisa de ImageMagick) →
+   regenera `public/icons/*.png`: `any` (corpo inteiro), `maskable` (fundo `#0e1120`
+   + logo a ~66% na zona segura), `apple-touch-icon` (180) e `favicon-64`.
+3. `npm run build` (o Vite copia para `dist/`) → commit → `git push`.
+4. No ar, confirmar o checksum do `icon-512.png` (§9C.4, esperado
+   `ac2900270ca2ef215bb88377365ae1c4`).
+5. Telemóvel: **reinstalar** o app para o ícone novo (limitação §9C.7).
+
+Não editar os PNGs à mão — alterar o `logosite.png` e regenerar.
+
+### 9C.9 Histórico (para não repetir)
+
+- O site começou como **upload manual (drag & drop)** de um `dist` pronto no
+  Netlify — sem repositório ligado.
+- Esse deploy ficou, por descuido, ligado ao repo errado
+  (`jfernandesp/leituradiaria-mescepicos`, cópia do site compilado, sem `src/`), o
+  que impediu os pushes do repo oficial de chegarem ao ar (badge do painel cinza,
+  ícones/UI antigos na produção).
+- A ligação foi trocada para `Jonas-Ferper/leituradiaria-mescepicos` (branch
+  `main`) com o `netlify.toml` já no repo (`a0705d3`). Desde então
+  **push = publicação**, sem passos manuais. O auto-deploy foi comprovado com o
+  teste do marcador (§9C.5).
+- O repo `jfernandesp/...` ficou órfão — pode ser arquivado/apagado.
+
+### 9C.10 Ligações úteis
+
+- Código-fonte: `https://github.com/Jonas-Ferper/leituradiaria-mescepicos`
+- Produção: `https://leituradiaria-mescepicos.netlify.app/`
+- Painel Netlify (deploys/log): `https://app.netlify.com/sites/leituradiaria-mescepicos/deploys`
+- Config build: `https://app.netlify.com/sites/leituradiaria-mescepicos/settings/deploys`
 
 ---
 
@@ -328,7 +487,7 @@ npm run data      # regenera public/data (index.json + cópias) a partir da raiz
 npm run dev       # = data + vite dev (servir local, hot reload)
 npm run build     # = data + build de produção -> dist/ (inclui PWA: sw.js + manifest)
 npm run preview   # = data + serve dist/ localmente
-npm run gen-icons # regenera os ícones PWA a partir de public/icons/icon.svg
+npm run gen-icons # regenera os ícones PWA a partir de logosite.png (raiz do projeto)
 npm test          # Vitest — testes unitários de src/lib/clp (validar, formatar)
 node scripts/audit-data.mjs  # auditoria dos JSONs-fonte (coerência JSON→UI)
 ```
