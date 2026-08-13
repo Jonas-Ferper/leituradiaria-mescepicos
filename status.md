@@ -4,6 +4,9 @@ Documento de referência para **agentes/IA (ou pessoas)** que forem ler ou edita
 repositório. Explica a arquitetura, as regras não-negociáveis e o modo de verificação
 antes de qualquer alteração.
 
+> **Para publicar uma alteração** (o fluxo do dia-a-dia), ver **`COMO_PUBLICAR.md`**
+> — guia rápido de `git push` → Netlify. O detalhe completo está na **§9C**.
+
 ---
 
 ## 1. O que é
