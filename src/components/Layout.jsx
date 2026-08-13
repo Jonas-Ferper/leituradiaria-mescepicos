@@ -1,5 +1,4 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { Asterisco } from './Asterisco.jsx'
 
 export function Layout() {
   return (
@@ -8,12 +7,12 @@ export function Layout() {
         Saltar para o conteúdo
       </a>
       <header className="masthead">
-        <NavLink to="/" className="marca" aria-label="Calendário Litúrgico — início">
+        <NavLink to="/" className="marca" aria-label="Calendário Litúrgico MESCE — início">
           <span className="marca-emblema">
-            <Asterisco tamanho={20} />
+            <img className="marca-logotipo" src="/icons/icon-marca.png" alt="" width="38" height="38" />
           </span>
           <span className="marca-texto">
-            <strong>Calendário Litúrgico</strong>
+            <strong>Calendário Litúrgico MESCE</strong>
           </span>
         </NavLink>
         <nav className="nav" aria-label="Navegação principal">

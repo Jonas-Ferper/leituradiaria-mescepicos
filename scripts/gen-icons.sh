@@ -39,3 +39,6 @@ echo "[icones] apple-touch-icon.png (180 px)"
 
 magick "$SOURCE" -resize 64x64 -background none "$ICONS/favicon-64.png"
 echo "[icones] favicon-64.png"
+
+magick "$SOURCE" -resize 128x128 -background none "$ICONS/icon-marca.png"
+echo "[icones] icon-marca.png (logo da cabeceira, 128 px)"
