@@ -1,35 +1,41 @@
 #!/usr/bin/env bash
-# Gera os ícones da PWA a partir de public/icons/icon.svg (one-shot).
-# Usa rsvg-convert quando disponível; senão cai para ImageMagick.
+# Gera os ícones da PWA a partir de logosite.png (raiz do projeto).
+# - any / apple / favicon: logótipo em corpo inteiro (resize direto).
+# - maskable: fundo #0e1120 opaco + logótipo a ~66% (zona segura de corte).
+# Requer ImageMagick (magick).
 set -euo pipefail
 
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
 ICONS="$RAIZ/public/icons"
-mkdir -p "$ICONS"
+SOURCE="$RAIZ/logosite.png"
+FRACAO_MASKABLE=0.66
+FUNDO="#0e1120"
 
-SPECS=(
-  "192 icon-192"
-  "512 icon-512"
-  "192 icon-maskable-192"
-  "512 icon-maskable-512"
-  "180 apple-touch-icon"
-)
-
-if command -v rsvg-convert >/dev/null 2>&1; then
-  for spec in "${SPECS[@]}"; do
-    size="${spec%% *}"
-    out="${spec##* }"
-    rsvg-convert -w "$size" -h "$size" "$ICONS/icon.svg" -o "$ICONS/$out.png"
-    echo "[icones] $out.png ($size px)"
-  done
-elif command -v magick >/dev/null 2>&1; then
-  for spec in "${SPECS[@]}"; do
-    size="${spec%% *}"
-    out="${spec##* }"
-    magick -background none "$ICONS/icon.svg" -resize "${size}x${size}" "$ICONS/$out.png"
-    echo "[icones] $out.png ($size px, imagemagick)"
-  done
-else
-  echo "[icones] rsvg-convert e imagemagick ausentes; não foi possível gerar PNGs." >&2
+if [ ! -f "$SOURCE" ]; then
+  echo "[icones] logosite.png não encontrado na raiz." >&2
   exit 1
 fi
+command -v magick >/dev/null 2>&1 || {
+  echo "[icones] ImageMagick (magick) ausente." >&2
+  exit 1
+}
+
+mkdir -p "$ICONS"
+
+for size in 192 512; do
+  # any (corpo inteiro)
+  magick "$SOURCE" -resize "${size}x${size}" -background none "$ICONS/icon-${size}.png"
+  # maskable (fundo opaco + logo ~66%)
+  tam=$((size * 66 / 100))
+  magick "$SOURCE" -resize "${tam}x${tam}" -background none "$ICONS/.mask-${size}.png"
+  magick -size "${size}x${size}" xc:"$FUNDO" "$ICONS/.fundo-${size}.png"
+  magick "$ICONS/.fundo-${size}.png" "$ICONS/.mask-${size}.png" -gravity center -composite "$ICONS/icon-maskable-${size}.png"
+  rm -f "$ICONS/.mask-${size}.png" "$ICONS/.fundo-${size}.png"
+  echo "[icones] icon-${size}.png + icon-maskable-${size}.png"
+done
+
+magick "$SOURCE" -resize 180x180 -background none "$ICONS/apple-touch-icon.png"
+echo "[icones] apple-touch-icon.png (180 px)"
+
+magick "$SOURCE" -resize 64x64 -background none "$ICONS/favicon-64.png"
+echo "[icones] favicon-64.png"

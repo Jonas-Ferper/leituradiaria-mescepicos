@@ -253,7 +253,9 @@ O projeto é uma **Progressive Web App** (`vite-plugin-pwa`). O build de produç
 `manifest.webmanifest`, `sw.js` e o registo automático em `index.html` (via `registerSW.js`).
 
 - **Instalação:** Android/Chrome ("Instalar") e iOS/Safari ("Adicionar ao ecrã inicial").
-  Ícones em `public/icons/` (mestre `icon.svg` + PNG 192/512/maskable/apple-touch-icon).
+  Ícones em `public/icons/` gerados a partir do **`logosite.png`** (raiz do projeto) por
+  `scripts/gen-icons.sh` — versões `any` (corpo inteiro), `maskable` (fundo `#0e1120`
+  opaco + logótipo a ~66% na zona segura), `apple-touch-icon` (180) e `favicon-64`.
   Metas Apple no `index.html`; safe areas via `env(safe-area-inset-*)` no CSS.
 - **Precache (shell apenas):** JS/CSS/HTML + fontes (`public/fonts/`, self-hosted) + ícones.
   **Os JSONs de dados NUNCA vão para o precache.**
@@ -267,8 +269,8 @@ O projeto é uma **Progressive Web App** (`vite-plugin-pwa`). O build de produç
 - **Fontes self-hosted:** `scripts/fetch-fonts.mjs` descarrega os woff2 do Google Fonts e
   gera `src/fonts.css` (`@font-face` locais em `/fonts/`). **Não reintroduzir o `<link>` do
   Google Fonts** no `index.html` — offline depende destes ficheiros locais.
-- **Ícones:** `scripts/gen-icons.sh` rasteriza `icon.svg` para os PNGs (rsvg-convert ou
-  ImageMagick). Não editar os PNGs à mão; alterar o SVG e regenerar.
+- **Ícones:** `scripts/gen-icons.sh` gera todos os PNGs a partir de `logosite.png`
+  (rafiz) com ImageMagick. Não editar os PNGs à mão; alterar o PNG-fonte e regenerar.
 
 > Hospedagem de produção exige **HTTPS** (instalação). Se for servido em sub-roteiro,
 > configurar `base` + `scope`/`start_url` no `vite.config.js`.
