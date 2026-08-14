@@ -94,3 +94,11 @@ export function normalizarTexto(s) {
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
 }
+
+const TEMPOS_FEMININOS = new Set(['quaresma', 'pascoa'])
+
+export function artigoTempo(tempo) {
+  const nome = normalizarTexto(tempo)
+  if (nome.startsWith('tempo ')) return 'do'
+  return TEMPOS_FEMININOS.has(nome) ? 'da' : 'do'
+}

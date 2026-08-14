@@ -4,7 +4,6 @@ import { useIndice, useMes } from '../lib/clp/hooks.js'
 import { metaMes } from '../lib/clp/data.js'
 import { pad2 } from '../lib/clp/validar.js'
 import { hojeCivil, dataPorExtenso, nomeDoMesCap } from '../lib/clp/formatar.js'
-import { FitaLiturgica } from '../components/FitaLiturgica.jsx'
 import { VistaDia } from '../components/VistaDia.jsx'
 import { EsqueletoDia } from '../components/Esqueletos.jsx'
 import { Carregando } from '../components/Carregando.jsx'
@@ -67,12 +66,6 @@ export function HojePage() {
   if (meses.fase !== 'pronto' || !meses.data) {
     return (
       <section className="pagmes pagdia">
-        <header className="pagmes-cabeca pagmes-cabeca-hoje">
-          <p className="hero-istmo">
-            <Asterisco tamanho={13} /> Hoje
-          </p>
-          <h1 className="pagmes-cabeca-mes">{dataPorExtenso(hoje)}</h1>
-        </header>
         <EsqueletoDia />
       </section>
     )
@@ -98,17 +91,6 @@ export function HojePage() {
 
   return (
     <section className="pagmes pagdia">
-      <header className="pagmes-cabeca pagmes-cabeca-hoje">
-        <p className="hero-istmo">
-          <Asterisco tamanho={13} /> Hoje
-        </p>
-        <h1 className="pagmes-cabeca-mes">
-          {dataPorExtenso(hoje)}
-        </h1>
-      </header>
-
-      <FitaLiturgica dias={dias} marco={hoje} />
-
       <VistaDia ano={ano} mes={mes} dia={diaObj} dias={dias} />
 
       <p className="secao-nota">

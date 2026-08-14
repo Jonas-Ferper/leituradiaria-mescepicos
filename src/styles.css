@@ -311,72 +311,6 @@ select {
   border-bottom: 1px solid var(--linha);
 }
 
-/* ---------- fita litúrgica (assinatura) ---------- */
-
-.fita {
-  margin: 6px 0 22px;
-}
-
-.fita-tira {
-  display: flex;
-  gap: 2px;
-  height: 12px;
-  border-radius: 999px;
-  overflow: hidden;
-  border: 1px solid var(--linha-fraca);
-  background: var(--tinta-4);
-}
-
-.fita-celula {
-  flex: 1 1 0;
-  height: 100%;
-  position: relative;
-  transition: transform 0.2s;
-}
-
-.fita-celula:hover {
-  transform: scaleY(1.5);
-}
-
-.fita-hoje {
-  box-shadow: inset 0 0 0 2px var(--tinta);
-  outline: 2px solid var(--ouro-claro);
-  outline-offset: 1px;
-}
-
-.fita-indisponivel {
-  background: repeating-linear-gradient(45deg, var(--tinta-4) 0 4px, var(--tinta-2) 4px 8px);
-}
-
-.fita-legenda {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px;
-  margin-top: 10px;
-  color: var(--parch-fraco);
-  font-size: 0.76rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.fita-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.fita-item i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-}
-
-.fita-posicao {
-  color: var(--parch-fraco);
-  margin-left: auto;
-}
-
 /* ---------- home: galeria de meses ---------- */
 
 .grade-anos {
@@ -543,8 +477,7 @@ select {
   margin-bottom: 6px;
 }
 
-.pagmes-cabeca h1,
-.pagmes-cabeca-hoje h1 {
+.pagmes-cabeca h1 {
   font-family: var(--fonte-display);
   font-weight: 600;
   font-size: clamp(2rem, 5vw, 3rem);
@@ -561,10 +494,6 @@ select {
   letter-spacing: 0.04em;
 }
 
-.pagmes-cabeca-hoje h1 {
-  font-size: clamp(1.6rem, 4vw, 2.6rem);
-}
-
 .pagmes-tempo {
   margin: 8px 0 0;
   color: var(--parch-fraco);
@@ -575,7 +504,7 @@ select {
 
 .pagmes-corpo {
   display: grid;
-  grid-template-columns: 1fr minmax(240px, 300px);
+  grid-template-columns: 1fr;
   gap: clamp(20px, 3vw, 36px);
   align-items: start;
 }
@@ -690,71 +619,6 @@ select {
   color: var(--branco-lit);
 }
 
-/* ---------- painel lateral / legenda ---------- */
-
-.painel {
-  border: 1px solid var(--linha-fraca);
-  background: var(--tinta-2);
-  border-radius: var(--raio-f);
-  padding: 18px 20px 20px;
-  position: sticky;
-  top: 16px;
-}
-
-.painel dl {
-  margin: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.painel dt {
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--parch-fraco);
-  margin-bottom: 3px;
-}
-
-.painel dd {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.95rem;
-}
-
-.painel-titulo {
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--parch-fraco);
-  margin: 22px 0 10px;
-}
-
-.legenda {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.legenda li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-}
-
-.painel-nota {
-  color: var(--parch-fraco);
-  font-size: 0.78rem;
-  line-height: 1.5;
-  margin: 20px 0 0;
-  border-top: 1px solid var(--linha-fraca);
-  padding-top: 14px;
-}
-
 /* ---------- página de dia ---------- */
 
 .pagdia {
@@ -842,34 +706,6 @@ select {
   color: var(--parch-fraco);
   font-size: 0.9rem;
   margin: 0 0 18px;
-}
-
-.celebra-meta {
-  display: grid;
-  gap: 10px;
-  margin: 0 0 6px;
-}
-
-.celebra-meta > div {
-  display: grid;
-  grid-template-columns: 130px 1fr;
-  align-items: center;
-  gap: 8px;
-}
-
-.celebra-meta dt {
-  font-size: 0.66rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--parch-fraco);
-}
-
-.celebra-meta dd {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.92rem;
 }
 
 .celebra-sub {
@@ -964,48 +800,6 @@ select {
   font-weight: 600;
   font-size: 1.35rem;
   margin: 0;
-}
-
-.lecionario-nota {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ouro-escuro);
-}
-
-.leitura {
-  border-top: 1px solid rgba(138, 107, 47, 0.35);
-  padding: 16px 0 6px;
-}
-
-.leitura-rotulo {
-  margin: 0;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ouro-escuro);
-}
-
-.leitura-ref {
-  font-family: var(--fonte-mono);
-  font-size: 0.82em;
-  letter-spacing: 0.02em;
-  color: var(--azul-rotulo);
-}
-
-.leitura-evangelho .leitura-rotulo {
-  color: var(--azul-rotulo);
-}
-
-.leitura-texto {
-  margin: 10px 0 0;
-  font-family: var(--fonte-display);
-  font-size: 1.06rem;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  color: var(--tinta-parche);
 }
 
 /* navegação entre dias */
@@ -1180,10 +974,6 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .painel {
-    position: static;
-  }
-
   .pagdia-corpo {
     grid-template-columns: 1fr;
   }
@@ -1232,10 +1022,6 @@ select {
   .leitura-texto {
     font-size: 0.97rem;
   }
-
-  .celebra-meta > div {
-    grid-template-columns: 108px 1fr;
-  }
 }
 
 /* ---------- botão "Hoje" + grupo da barra ---------- */
@@ -1251,19 +1037,32 @@ select {
 
 .selo-tempo {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
   border: 1px solid var(--linha);
   background: var(--tinta);
   color: var(--parch);
   font-size: 0.84rem;
-  padding: 7px 13px;
-  border-radius: 999px;
+  padding: 10px 14px;
+  border-radius: 16px;
 }
 
 .selo-tempo .bolha {
   width: 9px;
   height: 9px;
+}
+
+.selo-tempo-semana {
+  color: var(--parch-fraco);
+  font: 500 0.84rem/1.2 var(--fonte-mono);
+  letter-spacing: 0.08em;
+}
+
+.selo-tempo-cor-linha {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .selo-tempo-cor {
@@ -1327,13 +1126,6 @@ select {
   }
 }
 
-.sk-istmo {
-  width: 30px;
-  height: 3px;
-  margin-bottom: 16px;
-  border-radius: 2px;
-}
-
 .sk-linha {
   height: 12px;
 }
@@ -1345,18 +1137,6 @@ select {
 
 .sk-titulo {
   height: 28px;
-}
-
-.sk-data {
-  height: 52px;
-  width: 220px;
-  margin: 12px 0 0;
-}
-
-.sk-fita {
-  height: 14px;
-  border-radius: 999px;
-  margin: 18px 0;
 }
 
 .sk-blocos {
@@ -1520,13 +1300,17 @@ select {
 
 .leitura { border: 1px solid var(--linha-fraca); border-radius: 11px; background: var(--tinta-2); overflow: hidden; }
 .leitura + .leitura { margin-top: 9px; }
-.leitura summary { display: flex; align-items: center; gap: 12px; list-style: none; cursor: pointer; padding: 15px 17px; }
+.leitura summary { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; list-style: none; cursor: pointer; padding: 15px 44px 15px 17px; }
 .leitura summary::-webkit-details-marker { display: none; }
-.leitura summary::after { content: '⌄'; margin-left: auto; color: var(--ouro); transition: transform .2s ease; }
-.leitura[open] summary::after { transform: rotate(180deg); }
+.leitura summary::after { content: '⌄'; position: absolute; right: 17px; top: 50%; transform: translateY(-50%); color: var(--ouro); transition: transform .2s ease; }
+.leitura[open] summary::after { transform: translateY(-50%) rotate(180deg); }
 .leitura-rotulo { margin: 0; font: 600 .74rem/1.2 var(--fonte-corpo); letter-spacing: .12em; text-transform: uppercase; color: var(--azul-rotulo); }
-.leitura-ref { margin: 0; color: var(--ouro); font: .84rem/1.2 var(--fonte-mono); }
-.leitura-texto { border-top: 1px solid var(--linha-fraca); padding: 19px 20px 22px; white-space: pre-line; color: #fff; }
+.leitura-evangelho .leitura-rotulo { color: var(--ouro-escuro); }
+.leitura-ref { margin: 0; color: var(--ouro); font-family: var(--fonte-mono); font-size: clamp(1.15rem, 4vw, 1.5rem); line-height: 1.1; letter-spacing: .02em; }
+.leitura-texto { border-top: 1px solid var(--linha-fraca); padding: 19px 20px 22px; color: #fff; text-align: justify; text-wrap: pretty; }
+.leitura-linha { display: block; }
+.leitura-rubrica { display: block; text-align: center; font-style: italic; color: var(--parch-fraco); font-size: .92em; margin: 12px 0; }
+.leitura-resposta { display: block; font-style: italic; color: var(--parch-fraco); }
 .versiculo { color: var(--ouro-claro); font-size: .72em; font-style: italic; font-weight: 600; vertical-align: .12em; }
 
 @media (max-width: 900px) { .experiencia-grade { grid-template-columns: 1fr; } .dia-painel { max-width: 760px; } }
@@ -1545,7 +1329,7 @@ select {
 .pagdia-resto small { display: block; color: var(--parch-fraco); font: 500 .42em/1.2 var(--fonte-mono); letter-spacing: .12em; }
 .tempo-contexto { align-self: center; display: grid; gap: 7px; min-width: min(100%, 160px); }
 .tempo-rotulo { color: var(--parch-fraco); font: 500 .58rem/1 var(--fonte-mono); letter-spacing: .12em; text-transform: uppercase; }
-.dia-identidade .selo-tempo { border-color: color-mix(in srgb, var(--ouro) 35%, transparent); border-radius: 3px 14px 14px 3px; padding: 13px 15px 13px 12px; background: linear-gradient(90deg, rgba(224,189,114,.12), rgba(224,189,114,.035)); }
+.dia-identidade .selo-tempo { border-color: color-mix(in srgb, var(--ouro) 35%, transparent); border-radius: 14px; padding: 12px 15px; background: linear-gradient(90deg, rgba(224,189,114,.12), rgba(224,189,114,.035)); }
 .selo-tempo-texto { font-weight: 600; }
 
 @media (max-width: 560px) { .dia-identidade { align-items: flex-start; flex-direction: column; gap: 20px; } .tempo-contexto { align-self: stretch; width: 100%; } .dia-identidade .selo-tempo { width: 100%; } .dia-contexto { flex-wrap: wrap; row-gap: 7px; } }

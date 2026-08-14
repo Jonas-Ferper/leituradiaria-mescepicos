@@ -1,4 +1,4 @@
-import { diaDaSemana, nomeDoMesCap } from '../lib/clp/formatar.js'
+import { artigoTempo, diaDaSemana, nomeDoMesCap } from '../lib/clp/formatar.js'
 import { diaAnterior, diaSeguinte } from '../lib/clp/nav.js'
 import { CartolaCelebracao } from './CartolaCelebracao.jsx'
 import { Lecionario } from './Lecionario.jsx'
@@ -13,7 +13,6 @@ export function VistaDia({ ano, mes, dia, dias }) {
       <header className="pagdia-cabeca">
         <div className="dia-contexto">
           <span>{diaDaSemana(dia.diaSemanaCivil)}</span>
-          <span>Semana litúrgica {dia.semanaLiturgica}</span>
         </div>
         <div className="dia-identidade">
           <h1 className="pagdia-data" aria-label={`${d} de ${nomeDoMesCap(m)} de ${a}`}>
@@ -25,7 +24,11 @@ export function VistaDia({ ano, mes, dia, dias }) {
           </h1>
           <div className="tempo-contexto">
             <span className="tempo-rotulo">Tempo litúrgico</span>
-            <SeloTempo tempo={dia.tempoLiturgicoNome} cor={dia.corLiturgica} />
+            <SeloTempo
+              tempo={dia.tempoLiturgicoNome}
+              cor={dia.corLiturgica}
+              semana={`${dia.semanaLiturgica}a Semana ${artigoTempo(dia.tempoLiturgicoNome)} ${dia.tempoLiturgicoNome}`}
+            />
           </div>
         </div>
       </header>

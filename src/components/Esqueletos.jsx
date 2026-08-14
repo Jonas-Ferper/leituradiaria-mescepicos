@@ -12,7 +12,6 @@ export function EsqueletoMes({ meta }) {
   return (
     <div className="esqueleto" aria-hidden="true">
       <div className="sk sk-linha w30" />
-      <div className="sk sk-fita" />
       <div className="calendario">
         <div className="calendario-rotulos">
           {SEMANA_ABREV.map((s, i) => (
@@ -39,8 +38,6 @@ export function EsqueletoMes({ meta }) {
 export function EsqueletoDia() {
   return (
     <div className="esqueleto pagmes pagdia" aria-hidden="true">
-      <div className="sk sk-istmo" />
-      <div className="sk sk-data" />
       <div className="pagdia-corpo">
         <div className="esqueleto-cartao">
           <div className="sk sk-rotulo w40" />

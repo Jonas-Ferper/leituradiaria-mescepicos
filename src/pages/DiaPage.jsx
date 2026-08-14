@@ -4,7 +4,6 @@ import { useIndice, useMes } from '../lib/clp/hooks.js'
 import { statusMes, mesesDoAno } from '../lib/clp/data.js'
 import { diaKey, pad2 } from '../lib/clp/validar.js'
 import { nomeDoMesCap } from '../lib/clp/formatar.js'
-import { FitaLiturgica } from '../components/FitaLiturgica.jsx'
 import { NavMes, SeletorAno } from '../components/NavMes.jsx'
 import { VistaDia } from '../components/VistaDia.jsx'
 import { EsqueletoDia } from '../components/Esqueletos.jsx'
@@ -89,8 +88,6 @@ export function DiaPage() {
           {nomeDoMesCap(mes)} <small>{ano}</small>
         </h1>
       </header>
-
-      <FitaLiturgica dias={dias} marco={diaObj.dataCivil} />
 
       <VistaDia ano={ano} mes={mes} dia={diaObj} dias={dias} />
     </section>

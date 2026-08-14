@@ -3,23 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useIndice, useMes } from '../lib/clp/hooks.js'
 import { metaMes, mesesDoAno, statusMes } from '../lib/clp/data.js'
 import { pad2 } from '../lib/clp/validar.js'
-import { corDoTempo, corLegivel, dataCurta, nomeDoMesCap } from '../lib/clp/formatar.js'
+import { nomeDoMesCap } from '../lib/clp/formatar.js'
 import { CalendarioMes } from '../components/CalendarioMes.jsx'
-import { FitaLiturgica } from '../components/FitaLiturgica.jsx'
 import { NavMes, SeletorAno } from '../components/NavMes.jsx'
 import { EsqueletoMes } from '../components/Esqueletos.jsx'
 import { Carregando } from '../components/Carregando.jsx'
 import { PaginaIndisponivel } from '../components/PaginaIndisponivel.jsx'
 import { PaginaInexistente } from './PaginaInexistente.jsx'
-
-const VAR_TEMPO = {
-  Verde: 'var(--verde)',
-  Roxo: 'var(--roxo)',
-  Branco: 'var(--branco-lit)',
-  Rosa: 'var(--rosa)',
-  Vermelho: 'var(--vinho)',
-  Preto: 'var(--tinta-4)',
-}
 
 export function MesPage() {
   const { ano: anoRaw, mes: mesRaw } = useParams()
@@ -73,7 +63,6 @@ export function MesPage() {
   }
 
   const dias = meses.data.dias
-  const cores = [...new Set(dias.map((d) => d.corLiturgica).filter(Boolean))]
 
   return (
     <section className="pagmes">
@@ -97,50 +86,10 @@ export function MesPage() {
         {meta?.tempo && <p className="pagmes-tempo">{meta.tempo}</p>}
       </header>
 
-      <FitaLiturgica dias={dias} />
-
       <div className="pagmes-corpo">
         <div className="pagmes-calendario">
           <CalendarioMes ano={ano} mes={mes} dias={dias} />
         </div>
-
-        <aside className="painel" aria-label="Informação do mês">
-          <dl>
-            <div>
-              <dt>Tempo litúrgico predominante</dt>
-              <dd>
-                <i className="bolha" style={{ background: VAR_TEMPO[corDoTempo(meta?.tempo)] }} aria-hidden="true" />
-                {meta?.tempo || '—'}
-              </dd>
-            </div>
-            <div>
-              <dt>Período</dt>
-              <dd>
-                {dataCurta(meta?.inicio)} — {dataCurta(meta?.fim)}
-              </dd>
-            </div>
-            <div>
-              <dt>Dias</dt>
-              <dd>
-                {meta?.totalDias} · {meta?.domingosNoMes || 0} domingos · {meta?.comLeituras || 0} com leituras
-              </dd>
-            </div>
-          </dl>
-
-          <h3 className="painel-titulo">Cores do mês</h3>
-          <ul className="legenda">
-            {cores.map((c) => (
-              <li key={c}>
-                <i className="bolha" style={{ background: corLegivel(c) }} aria-hidden="true" />
-                {c}
-              </li>
-            ))}
-          </ul>
-
-          <p className="painel-nota">
-            A fita acima mostra a sequência dos tempos litúrgicos deste mês; cada quadrado é um dia.
-          </p>
-        </aside>
       </div>
     </section>
   )

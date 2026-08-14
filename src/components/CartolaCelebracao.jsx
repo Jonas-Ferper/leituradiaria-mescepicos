@@ -1,5 +1,3 @@
-import { corLegivel } from '../lib/clp/formatar.js'
-
 export function CartolaCelebracao({ dia }) {
   const c = dia.celebracaoPrincipal || {}
 
@@ -10,15 +8,6 @@ export function CartolaCelebracao({ dia }) {
       <p className="celebra-det">
         {[c.categoriaNome, c.natureza && `${c.natureza}`].filter(Boolean).join(' · ')}
       </p>
-      <dl className="celebra-meta">
-        <div>
-          <dt>Cor</dt>
-          <dd>
-            <i className="bolha" style={{ background: corLegivel(dia.corLiturgica) }} aria-hidden="true" />
-            {dia.corLiturgica}
-          </dd>
-        </div>
-      </dl>
     </article>
   )
 }

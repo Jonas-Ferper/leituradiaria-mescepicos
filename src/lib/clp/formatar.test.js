@@ -11,6 +11,7 @@ import {
   dataCurta,
   corDoTempo,
   normalizarTexto,
+  artigoTempo,
 } from './formatar.js'
 
 describe('COR_HEX / corLegivel', () => {
@@ -94,5 +95,28 @@ describe('corDoTempo', () => {
 describe('normalizarTexto', () => {
   it('retira acentos e passa a minúsculas', () => {
     expect(normalizarTexto('Assunção de Nossa Senhora')).toBe('assuncao de nossa senhora')
+  })
+})
+
+describe('artigoTempo', () => {
+  it('usa "do" para tempos que começam por "Tempo"', () => {
+    expect(artigoTempo('Tempo Comum')).toBe('do')
+    expect(artigoTempo('Tempo do Advento')).toBe('do')
+    expect(artigoTempo('Tempo do Natal')).toBe('do')
+    expect(artigoTempo('Tempo Pascal')).toBe('do')
+  })
+
+  it('usa "da" para tempos femininos', () => {
+    expect(artigoTempo('Quaresma')).toBe('da')
+  })
+
+  it('usa "do" para tempos masculinos sem prefixo "Tempo"', () => {
+    expect(artigoTempo('Advento')).toBe('do')
+    expect(artigoTempo('Natal')).toBe('do')
+  })
+
+  it('tem um padrão seguro', () => {
+    expect(artigoTempo('')).toBe('do')
+    expect(artigoTempo()).toBe('do')
   })
 })

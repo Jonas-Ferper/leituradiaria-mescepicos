@@ -1,25 +1,17 @@
-import { corDoTempo, corLegivel } from '../lib/clp/formatar.js'
+import { corLegivel } from '../lib/clp/formatar.js'
 
-const COR_VAR = {
-  Verde: 'var(--verde)',
-  Roxo: 'var(--roxo)',
-  Branco: 'var(--branco-lit)',
-  Rosa: 'var(--rosa)',
-  Vermelho: 'var(--vinho)',
-  Preto: 'var(--tinta-4)',
-}
-
-export function SeloTempo({ tempo, cor }) {
+export function SeloTempo({ tempo, cor, semana }) {
   if (!tempo) return null
   return (
     <span className="selo-tempo">
-      <i
-        className="bolha"
-        style={{ background: COR_VAR[corDoTempo(tempo)] || corLegivel(cor) }}
-        aria-hidden="true"
-      />
+      {semana && <span className="selo-tempo-semana">{semana}</span>}
       <span className="selo-tempo-texto">{tempo}</span>
-      {cor && cor.toLowerCase() !== corDoTempo(tempo).toLowerCase() && <b className="selo-tempo-cor">{cor}</b>}
+      {cor && (
+        <span className="selo-tempo-cor-linha">
+          <i className="bolha" style={{ background: corLegivel(cor) }} aria-hidden="true" />
+          <b className="selo-tempo-cor">{cor}</b>
+        </span>
+      )}
     </span>
   )
 }
